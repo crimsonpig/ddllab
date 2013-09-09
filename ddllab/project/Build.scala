@@ -9,6 +9,7 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     // Add your project dependencies here,
+    "org.hibernate" % "hibernate-entitymanager" % "3.6.9.Final", 
     "mysql" % "mysql-connector-java" % "5.1.25", 
     javaCore,
     javaJdbc,
