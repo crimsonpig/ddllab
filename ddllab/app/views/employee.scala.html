@@ -1,0 +1,21 @@
+@(employee: Employee, employeeForm: Form[Employee])
+@import helper._
+
+@main("Employee") {
+    <h1>@employee.getFirst() @employee.getLast()</h1>
+
+    @form(routes.EmployeeApp.update(employee.getEmployeeNumber())) {      
+        <fieldset>
+        	<div>Employee Number: @employee.getEmployeeNumber()</div>
+            @inputText(employeeForm("first"), '_label -> "First Name")
+            @inputText(employeeForm("last"), '_label -> "Last Name")
+            @inputText(employeeForm("username"), '_label -> "User name")
+        </fieldset>
+
+        <div>
+            <input type="submit" value="Update" />
+        </div>
+        
+    }
+	
+}

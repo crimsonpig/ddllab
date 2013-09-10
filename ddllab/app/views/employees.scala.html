@@ -1,0 +1,21 @@
+@(employees: List[Employee])
+@import helper._
+
+@main("Employees List") {
+    <h1>@employees.size() employees</h1>
+    
+    <table>
+	    @for(employee <- employees){
+	    	<tr>
+	    		<td><a href="@routes.EmployeeApp.employee(employee.getEmployeeNumber)">@employee.getEmployeeNumber()</a></td>
+	    		<td>@employee.getFirst()</td>
+	    		<td>@employee.getLast()</td>
+	    		<td>@employee.getUsername()</td>
+	    	</tr>
+	    }
+    </table>
+    
+    @form(routes.EmployeeApp.newEmployee()) {
+        <input type="submit" value="Create">
+    }
+}

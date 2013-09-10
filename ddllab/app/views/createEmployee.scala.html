@@ -1,0 +1,21 @@
+@(employee: Employee, employeeForm: Form[Employee])
+@import helper._
+
+@main("Employee") {
+    <h1>New Employee</h1>
+
+    @form(routes.EmployeeApp.save()) {      
+        <fieldset>
+            @inputText(employeeForm("first"), '_label -> "First Name")
+            @inputText(employeeForm("last"), '_label -> "Last Name")
+            @inputText(employeeForm("username"), '_label -> "User Name")
+            @inputText(employeeForm("password"), '_label -> "Password")
+        </fieldset>
+
+        <div>
+            <input type="submit" value="Save" />
+        </div>
+        
+    }
+	
+}
