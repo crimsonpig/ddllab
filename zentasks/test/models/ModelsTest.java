@@ -63,4 +63,18 @@ public class ModelsTest extends WithApplication {
 		assertEquals(1, results.size());
 		assertEquals("Release next version",results.get(0).title);
 	}
+
+
+	@Test
+	public void fullTest(){
+		Ebean.save((List) Yaml.load("test-data.yml"));
+
+		// Count things
+		assertEquals(3, User.find.findRowCount());
+		assertEquals(7, Project.find.findRowCount());
+		assertEquals(5, Task.find.findRowCount());
+
+		// Try to authenticate as users
+		
+	}
 }
