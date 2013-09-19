@@ -5,6 +5,8 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import play.test.WithApplication;
 import static play.test.Helpers.*;
+import com.avaje.ebean.Ebean;
+import play.libs.*;
 import java.util.List;
 
 public class ModelsTest extends WithApplication {
@@ -67,7 +69,7 @@ public class ModelsTest extends WithApplication {
 
 	@Test
 	public void fullTest(){
-		//Ebean.save((List) Yaml.load("test-data.yml"));
+		Ebean.save((List) Yaml.load("test-data.yml"));
 
 		// Count things
 		assertEquals(3, User.find.findRowCount());
