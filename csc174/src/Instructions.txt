@@ -1,0 +1,17 @@
+To run the program, the following items should be located in the same folder/directory:
+
+1. The Java Program, "stabbert_Keith_hw3.java"
+2. The JDBC driver, "mysql-connector-java-5.1.27-bin.jar"
+3. The run script, "stabbert_Keith_hw3.sh"
+
+When running the program from the Linux command-line, first "cd" to the directory/folder where the above 3 files are located. 
+
+THE FOLLOWING COMMAND WILL COMPILE AND RUN THE PROGRAM!
+
+./stabbert_Keith_hw3.sh
+
+
+This will compile the Java program and run the Java program with the JDBC driver on the classpath.
+When the program has finished running, the compiled "stabbert_Keith_hw3.class" file will be automatically removed. 
+
+

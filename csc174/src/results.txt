@@ -1,4 +1,4 @@
-Connection open to database at: jdbc:mysql://athena.ecs.csus.edu/cs174127
+ConConnection open to database at: jdbc:mysql://athena.ecs.csus.edu/cs174127
 Listing all persons who are both employees and customers of the bank.
 Query 1 executed
 
@@ -19,3 +19,4 @@ Calling get_no_of_tran("123456789")
 number of transactions for account "123456789" = 2 transactions
 
 Disconnected from database at: jdbc:mysql://athena.ecs.csus.edu/cs174127
+
