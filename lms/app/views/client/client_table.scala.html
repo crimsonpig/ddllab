@@ -13,7 +13,9 @@
 			<th>View All Cases</th> -->			
 			<th>Enter Requisition</th>
 		}
-		
+		@if(userRoles.contains("admin")){
+			<th>Delete</th>
+		}
 	</tr>
 	@clients.map { client => 
 		<tr>
@@ -27,6 +29,13 @@
 				<!-- <td>View Open Cases</td> 
 				<td>View All Cases</td>-->
 				<td><a href="@routes.CaseController.createCase(client.getClientId)">Enter Requisition</a></td>
+			}
+			@if(userRoles.contains("admin")){
+			<td>
+					<a href="@routes.ClientController.deleteClient(client.getClientId)">
+					Delete
+					</a>
+			</td>
 			}
 		</tr>
 	}

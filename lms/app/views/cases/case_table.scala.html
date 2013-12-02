@@ -7,7 +7,9 @@
 		<th>Received Date</th>
 		<th>Tests Ordered</th>
 		<!-- <th>Comment</th> -->
-		<th>Edit</th>
+		@if(userRoles.contains("manage cases")){
+			<th>Edit</th>
+		}
 		@if(userRoles.contains("manage results")){
 			<th>Create Report</th>
 		}
@@ -33,11 +35,13 @@
 			}
 			</td>
 			 -->
+			@if(userRoles.contains("manage cases")){
 			<td>
 				<a href="@routes.CaseController.editCase(theCase.getCaseNumber())">
 				Edit
 				</a>
 			</td>
+			}
 			@if(userRoles.contains("manage results")){
 				<td>
 					<a href="@routes.ReportController.createReport(theCase.getCaseNumber())">

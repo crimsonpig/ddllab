@@ -99,9 +99,10 @@ public class ClientController extends Controller {
     public static Result deleteClient(int id){
 		if (Avocado.hasRole("admin")) {
 	    	Client theClient = Client.findByClientNumber(id);
-	    	if(theClient != null){
-	    		theClient.delete();	
+	    	if(theClient == null){
+	    		return redirect(routes.MainController.searchResults("client", id+""));
 	    	}
+	    	theClient.delete();	
 		}
 		return redirect(routes.MainController.returnToDashboard());
     }

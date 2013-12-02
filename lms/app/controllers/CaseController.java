@@ -18,20 +18,25 @@ import models.*;
 public class CaseController extends Controller {
 	
     public static Result search(String searchString) {
-		List<CaseEntityObject> casesFound = new LinkedList<CaseEntityObject>();
-		if(SearchTools.isNumber(searchString)){
-			casesFound.addAll(CaseEntityObject.searchByCaseNumber(searchString));
+		if(Avocado.hasRole("manage cases")){
+			List<CaseEntityObject> casesFound = new LinkedList<CaseEntityObject>();
+			if(SearchTools.isNumber(searchString)){
+				casesFound.addAll(CaseEntityObject.searchByCaseNumber(searchString));
+			}
+			else if(SearchTools.isFormattedFirstAndLast(searchString)){
+				String[] firstAndLast = SearchTools.getFormattedFirstAndLast(searchString);
+				String first = firstAndLast[0];
+				String last = firstAndLast[1];
+				casesFound.addAll(CaseEntityObject.findBySubjectFirstAndLastName(first, last));
+			}
+			else if(SearchTools.isFirstOrLast(searchString)){
+				casesFound.addAll(CaseEntityObject.findBySubjectFirstOrLastName(searchString));
+			}
+			return MainController.showDashboardWithCases(casesFound);
 		}
-		else if(SearchTools.isFormattedFirstAndLast(searchString)){
-			String[] firstAndLast = SearchTools.getFormattedFirstAndLast(searchString);
-			String first = firstAndLast[0];
-			String last = firstAndLast[1];
-			casesFound.addAll(CaseEntityObject.findBySubjectFirstAndLastName(first, last));
+		else{
+			return redirect(routes.MainController.returnToDashboard());			
 		}
-		else if(SearchTools.isFirstOrLast(searchString)){
-			casesFound.addAll(CaseEntityObject.findBySubjectFirstOrLastName(searchString));
-		}
-		return MainController.showDashboardWithCases(casesFound);
     }
 
     @Transactional
@@ -120,11 +125,13 @@ public class CaseController extends Controller {
     
     @Transactional
     public static Result deleteCase(String caseNumber){
-    	CaseEntityObject toDelete = CaseEntityObject.findByCaseNumber(caseNumber);
-    	if(toDelete == null){
-    		return redirect(routes.MainController.searchResults("case", caseNumber));
-    	}
-    	toDelete.delete();
+		if (Avocado.hasRole("admin")) {
+	    	CaseEntityObject toDelete = CaseEntityObject.findByCaseNumber(caseNumber);
+	    	if(toDelete == null){
+	    		return redirect(routes.MainController.searchResults("case", caseNumber));
+	    	}
+	    	toDelete.delete();
+		}
     	return redirect(routes.MainController.returnToDashboard());
     }
 }
