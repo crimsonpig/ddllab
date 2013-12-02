@@ -1,0 +1,57 @@
+@(cases: List[CaseEntityObject], userRoles: Set[String])
+<h3>Case Search Results</h3>
+<table>
+	<tr>
+		<th>Case Number</th>
+		<th>Case Subject's Name</th>
+		<th>Received Date</th>
+		<th>Tests Ordered</th>
+		<!-- <th>Comment</th> -->
+		<th>Edit</th>
+		@if(userRoles.contains("manage results")){
+			<th>Create Report</th>
+		}
+		@if(userRoles.contains("admin")){
+			<th>Delete</th>
+		}
+	</tr>
+	@cases.map { theCase => 
+		<tr>
+			<td>@theCase.getCaseNumber()</td>
+			<td>@theCase.getSubjectLastname(), @theCase.getSubjectFirstname()</td>
+			<td>@theCase.getReceivedDate()</td>
+			<td>
+			@theCase.getCaseTestsSparse().map { cTs =>
+				<div>@cTs</div>
+			}
+			</td>
+			<!--  
+			<td>@if(theCase.getCaseNote() != null){
+				@theCase.getCaseNote().getCommentText()
+			}else{
+				No comment.
+			}
+			</td>
+			 -->
+			<td>
+				<a href="@routes.CaseController.editCase(theCase.getCaseNumber())">
+				Edit
+				</a>
+			</td>
+			@if(userRoles.contains("manage results")){
+				<td>
+					<a href="@routes.ReportController.createReport(theCase.getCaseNumber())">
+					Create Report
+					</a>
+				</td>
+			}
+			@if(userRoles.contains("admin")){
+			<td>
+					<a href="@routes.CaseController.deleteCase(theCase.getCaseNumber())">
+					Delete
+					</a>
+			</td>
+			}
+		</tr>
+	}
+</table>

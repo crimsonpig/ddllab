@@ -1,0 +1,56 @@
+@(employees: List[EmployeePOJO])
+@import helper._
+
+@main("Employees List") {
+ 	<a href="@routes.MainController.returnToDashboard()">
+		Return To Dashboard
+	</a> 
+    <h1>DDL Employees</h1>
+    <p class="error">
+	  	@flash.get("pwReset")
+	</p>
+    
+    <table>
+    	<tr>
+    		<th></th>
+    		<th>Number</th>
+    		<th>First</th>
+    		<th>Last</th>
+    		<th>Username</th>
+    		<th>Manage Clients?</th>
+    		<th>Manage Cases?</th>
+    		<th>Manage Results?</th>
+    		<th>Administrator?</th>
+    		<th></th>
+    	</tr>
+	    @for(employee <- employees){
+	    	<tr>
+	    		<td>
+	    			<a href="@routes.EmployeeController.editEmployee(employee.getEmployeeNumber())">
+	    				<button type="button">Edit</button>
+	    			</a>
+	    		</td>
+	    		<td>@employee.getEmployeeNumber()</td>
+	    		<td>@employee.getFirst()</td>
+	    		<td>@employee.getLast()</td>
+	    		<td>@employee.getUserName()</td>
+	    		<td>@employee.isManageClients()</td>
+	    		<td>@employee.isManageCases()</td>
+	    		<td>@employee.isManageCaseResults()</td>
+	    		<td>@employee.isAdmin()</td>
+	    		<td>
+	    			<a href="@routes.EmployeeController.resetPassword(employee.getEmployeeNumber())">
+	    			Reset Password
+	    			</a>
+	    		</td>
+	    	</tr>
+	    }
+    </table>
+
+	<a href="@routes.EmployeeController.newEmployee()">
+	     <button type="submit">Create</button>	
+	</a>
+
+
+
+}

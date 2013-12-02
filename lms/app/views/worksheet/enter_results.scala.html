@@ -1,0 +1,41 @@
+@(ct: CaseTest, resultsForm: Form[EnterResultsPOJO])
+@import helper._
+
+@main("Enter Results") {
+    <form>
+    	<p class="error">
+	  		@flash.get("resLenError")
+	  	</p>
+		<div>
+			@ct.getTestNumber(), 
+			@ct.getTestName()
+		</div>
+		<div>
+		---------------------------------------------------------------------------------------------
+		</div>
+		<div>
+			<input type="hidden" name="caseTestPK" value="@resultsForm("caseTestPK").value">
+			<span>@ct.getCaseNumber()</span>
+			<span>@ct.getCaseSubjectLast(), @ct.getCaseSubjectFirst()</span>
+			<span>@ct.getCaseSampleType() </span>
+			<span>@ct.getTestRespicture()</span>
+			<span><input type="text" size="10" name="results" value="@resultsForm("results").value"></span>
+			<span>@ct.getTestUnits()</span>
+		</div>
+		<div>
+			<span>COL: @ct.getSampleDateCollected(),@ct.getSampleTimeCollected()</span>
+			<span>(ID=@ct.getCaseOtherId())</span>
+			<span>(@ct.getClientNumber())</span>
+			<span>@ct.getClientFirstName() @ct.getClientLastName() @ct.getClientCompanyName()</span>
+			<span>@ct.getClientOfficePhone()</span>
+		</div>
+		<br />    
+    
+		<div>
+		<button type="submit" formmethod="post" 
+		formaction="@routes.WorksheetController.enterComment(ct.getTestNumber(), ct.getCaseTestPK())">
+		Next</button>
+		<a href="@routes.MainController.returnToDashboard()"><button type="button">Quit</button></a>
+		</div> 
+ 	</form>    
+}

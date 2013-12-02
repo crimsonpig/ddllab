@@ -1,0 +1,38 @@
+@(tests: List[TestPOJO])
+@import helper._
+
+@main("Tests") {
+	<a href="@routes.MainController.returnToDashboard()">
+		Return To Dashboard
+	</a> 
+    <h1>DDL Tests and Consultations</h1>
+    
+    <table>
+		<tr>
+			<th></th>
+			<th>Test Number</th>
+			<th>Test Name</th>
+			<th>Test Type</th>
+			<th>Sample Type</th>
+			<th>Units</th>
+		</tr>
+		@for(test <- tests){
+			<tr>
+	    		<td>
+	    			<a href="@routes.TestController.edit(test.getTestNumber())">
+	    				<button type="button">Edit</button>
+	    			</a>
+	    		</td>
+				<td>@test.getTestNumber()</td>
+				<td>@test.getTestName()</td>
+				<td>@test.getTestType()</td>
+				<td>@test.getTypeOfSample()</td>
+				<td>@test.getUnits()</td>
+			</tr>
+		}
+    </table>
+
+	<a href="@routes.TestController.newTest()">
+	     <button type="submit">Create</button>	
+	</a>
+}

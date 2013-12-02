@@ -1,0 +1,200 @@
+@(theCase: CaseEntityObject, reportForm: Form[ReportPOJO])
+@import helper._
+
+@main("Report") {
+    
+	<style>
+		.clearFloat {
+			float:none;
+			clear:both;
+		}
+		.blackBar {
+			float:none;
+			clear:both;
+			border:thin solid black;
+			height:0px;
+			width:100%;
+		}
+		.caseTestCellHeader {
+			text-decoration:underline;
+			float:left;
+			width:33%;
+		}
+		.caseTestCell {
+			float:left;
+			width:33%;
+		}
+		.signatureText {
+			text-decoration:overline;
+			font-style: italic;
+		}
+		#report {
+			width:800px;
+			font-size:10pt;
+			margin-right:auto;
+			margin-left:auto;
+		}
+		#contentSection {
+			margin-top:4%; 
+			width:90%;
+			margin-right:auto;
+			margin-left:auto
+		}
+		#caseInfo {
+			width:40%;
+			margin-right:auto;
+			margin-left:auto;
+		}
+		#caseComment {
+			margin-bottom:2%;
+		}
+		#signatureSection {
+			margin-bottom:2%;
+			margin-top:100px;
+		}
+	</style>
+	<div id="report" >
+		<a href="@routes.MainController.returnToDashboard()">Back</a>
+		<br />
+		<header>
+			<div id="ddltitle" style="float:left;">
+				<h2>DRUG DETECTION LABORATORIES, INC.</h2>
+				<div>
+				Directors: Clinical Toxicologist Scientist Licensed by California D.H.S.<br />
+				Forensic Alcohol Analysis (California) D.H.S.#--022<br />
+				<span style="text-decoration: underline;">www.drugdetection.net</span>
+				</div>
+			</div>
+			<div id="directorsAndCaseNumber" style="float:right;">
+				<h3>DDL Number: @theCase.getCaseNumber()</h3>
+				<div style="float:right;">
+					JEFFERY L. ZEHNDER<br />
+					SUSAN C. ZEHNDER<br />
+					<br />
+					EDWIN A. SMITH and<br />
+					MINH X. TRAN
+				</div>
+				<div style="float:right;">LAB DIRECTORS&nbsp;&nbsp;&nbsp;
+				<br />
+				<br />
+				<br />
+				Staff Toxicologists
+				</div>
+			</div>
+			<div class="blackBar"></div>
+		</header>
+		<div id="contentSection" >
+			<div id="mailHeader">
+				<div id="to" style="float:left">
+				To:
+				</div>
+				<div id="clientStuff" style="float:left;margin-left:5%">
+				@theCase.getClientFirst().toUpperCase() 
+				@theCase.getClientLast().toUpperCase()<br />
+				@theCase.getClientCompany().toUpperCase()<br />
+				@theCase.getClientMailingAddress().toUpperCase()<br />
+				@theCase.getClientCity().toUpperCase()
+				, @theCase.getClientState().toUpperCase()
+				@theCase.getClientZip().toUpperCase()
+				<br />
+				<br />
+				Acct#: @theCase.getClientNumber()&nbsp;&nbsp;
+				@theCase.getClientOfficePhone()
+				</div>
+				<div id="reportPrintedDate" style="float:right;margin-right:25%">
+				Report printed: @theCase.getLatestReportedDate()
+				</div>
+				<div class="clearFloat"></div>
+			</div>
+			<div id="labSampleInfo" style="margin-top:5%;margin-bottom:5%">
+				<center>
+					<h3 style="font-weight:bold;text-decoration: underline;">
+					LABORATORY REPORT
+					</h3>
+				</center>
+				<div id="caseInfo" >
+					<div style="float:left">
+					Subject Name:<br />
+					Agency/Other ID:<br />
+					Specimen Received:<br />
+					Specimen Collected:<br />
+					</div>
+					<div style="float:left;margin-left:5px;">
+					@theCase.getSubjectLastname(), @theCase.getSubjectFirstname()<br />
+					@theCase.getOtherIdNumber()<br />
+					@theCase.getReceivedDate()<br />
+					@theCase.getDateCollected(), @theCase.getTimeCollected()
+					</div>
+					<div class="clearFloat"></div>
+				</div>
+			</div>
+			<div id="testInfo">
+				<div>
+					<div class="caseTestCellHeader">Test</div>
+					<div class="caseTestCellHeader">Specimen&nbsp;&nbsp;/&nbsp;&nbsp;Result</div>
+					<div class="caseTestCellHeader">Date Completed</div>
+				</div>
+				<div style="float:none;clear:both"></div>
+				@theCase.getCaseTests().map { ct => 
+					<div class="caseTestCell">@ct.getTestName()</div>
+					<div class="caseTestCell">@theCase.getSampleType()
+					&nbsp;
+					&nbsp;
+					&nbsp;
+					@ct.getTestRespicture()
+					@ct.getResults()
+					@ct.getTestUnits()
+					</div>
+					<div class="caseTestCell">@ct.getDateCompleted()</div>
+					<div class="clearFloat"></div>
+					<div>@ct.getActualCommentText()</div>
+					<br />
+					<div>@ct.getInformationalCommentText()</div>
+					<br />
+				}
+			</div>
+			<div id="caseComment">@theCase.getCaseNoteText()</div>
+			
+			<div class="blackBar"></div>
+			<div id="signatureSection" >
+				<div id="analysisPerformedBy" style="float:left;">
+					<div class="signatureText">
+					Analysis performed by Minh X. Tran, B.S., FAA
+					</div>
+				</div>
+				<div id="reviewedBy" style="float:right;">
+					<div class="signatureText">
+					Reviewed by Edwin A. Smith, M.S., D-ABC, FTS-ABFT, FAS
+					</div>
+				</div>
+				<div class="clearFloat"></div>
+			</div>
+		</div>
+
+		<div id="vialSection">
+			<div style="margin-bottom:1%;">Vial analyzed: 
+			<input type="checkbox" >
+			Gray Top
+			<input type="checkbox" >
+			Red Top
+			<input type="checkbox" >
+			Other
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			Note: Specimen destroyed within one year unless other arrangements have been made.
+			</div>
+			<div class="blackBar"></div>
+		</div>
+		
+		<footer>
+			<center>
+			<div>(916) 366-3113
+			&nbsp;&nbsp;&#8226;
+			9700 Business Park Drive, Suite 406, Sacramento, California 95827
+			&nbsp;&nbsp;&#8226;
+			Fax: (916) 366-3917
+			</div>
+			</center>
+		</footer>
+	</div>
+
+}

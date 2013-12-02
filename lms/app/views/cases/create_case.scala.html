@@ -1,0 +1,107 @@
+@(caseForm: Form[RequisitionPOJO], formErrors: List[String])
+@import helper._
+@main("Enter Requisition"){
+<script type="text/javascript">
+	var testCount = 1;
+	
+	function addInputMethod() {
+	
+		
+		$("#caseTests").append(
+				  "<label for='test" + testCount + "'>Test " + (testCount+1) + ": &nbsp;</label>" +
+			      "<input type=text id='test" + testCount + "' name='testNumber[" + testCount + "]'/>" +
+			      
+			      "<br/>");
+		testCount++;
+	}
+
+</script>
+
+	
+	
+<h1>Enter a Requisition</h1>
+@if(formErrors != null){
+<div id="errors">
+	<ul>
+		@formErrors.map{ err =>
+			<li>Error: @err</li>
+		}
+	</ul>
+</div>
+}
+
+@form(routes.CaseController.saveCase()){
+	
+	<fieldset>
+	<legend>Case Regarding</legend>
+	<input type=hidden name="clientID" value="@caseForm("clientID").value"/>
+	@inputText(caseForm("subjectFirstName"), 
+			'_label -> "First Name", 
+			'_showConstraints -> false)
+	@inputText(caseForm("subjectLastName"), 
+			'_label -> "Last Name", 
+			'_showConstraints -> false)
+	@inputText(caseForm("otherIdNumber"),
+			'_label -> "Other Id",
+			'_showConstraints -> false)
+
+			
+
+	<dl class=" " id="dateCollected_field">
+	    <dt><label for="dateCollected">Date Collected</label></dt>
+	    <dd>
+	    <input type="text" id="dateCollected" name="dateCollected" value="" placeholder="YYYY-MM-DD">
+	</dd>
+	</dl>
+
+	</fieldset>
+	
+	<fieldset>
+	<legend>DDL Data</legend>
+	@inputText(caseForm("caseNumber"),
+			'_label -> "Case #:",
+			'size -> 7)
+
+
+	<dl class=" " id="dateReceived_field">
+    <dt><label for="dateReceived">Date Received:</label></dt>
+    <dd>
+   		<input type="text" id="dateReceived" name="dateReceived" value="" placeholder="YYYY-MM-DD">
+	</dd>
+	</dl>
+
+
+	@inputText(caseForm("receivedByEmployee"),
+			'_label -> "Received By Employee id#:")
+	<label for="sampleType">Sample Type: &nbsp;</label>
+	<select id="sampleType" name="sampleType">
+			<option value="blood">Blood</option>
+			<option value="urine">Urine</option>
+			<option value="other">Other</option>
+	</select><br/>
+	
+	@textarea(caseForm("caseNote"),
+			'_label -> "Case Notes:",
+			'_showConstraints -> true,
+			'cols -> 144, 
+		'rows -> 6)
+			
+	<div id="caseTests">
+	<a href="javascript:addInputMethod()">Add test field</a><br/>
+	<label for="test0">Test 1: &nbsp;</label>
+	<input id="test0" type=text name="testNumber[0]"/><br/>
+	</div>
+	
+	</fieldset>
+	
+	
+	<div>
+		
+		<input type="submit" value="Save" />
+	</div>
+	
+	
+	
+}
+
+}

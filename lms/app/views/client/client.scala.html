@@ -1,0 +1,68 @@
+@(goal: String, clientForm: Form[Client])
+@import helper._
+@main("Client Information"){
+	<form>
+	<fieldset>
+		@inputText(clientForm("first"), 
+			'_label -> "First Name")
+		@inputText(clientForm("mi"), 
+			'_label -> "M.I.",  
+			'size -> 1, 
+			'cols -> 1)
+		@inputText(clientForm("last"), 
+			'_label -> "Last Name")
+		@inputText(clientForm("sex"), 
+			'_label -> "Sex",  
+			'size -> 1, 
+			'cols -> 1)
+		@inputText(clientForm("company"),
+			'_label -> "Company")
+		@inputText(clientForm("mailingAddress"), 
+			'_label -> "Mailing Address")
+		@inputText(clientForm("city"), 
+			'_label -> "City")
+		@inputText(clientForm("state"), 
+			'size -> 2, 
+			'cols -> 2, 
+			'_label -> "State", 
+			'_showConstraints -> false)
+		@inputText(clientForm("zip"),
+			'size -> 5, 
+			'cols -> 5,  
+			'_label -> "ZIP", 
+			'_showConstraints -> false)
+		@inputText(clientForm("officePhone"), 
+			'_label -> "Office Phone Number", 
+			'_showConstraints -> false)
+		@inputText(clientForm("cellPhone"), 
+			'_label -> "Cell Phone Number", 
+			'_showConstraints -> false)
+		@inputText(clientForm("fax"), 
+			'_label -> "Fax Number", 
+			'_showConstraints -> false)
+		@checkbox(clientForm("emailReportOk"), 
+			'_label -> "Receive Case Reports via Email?", 
+			'_showConstraints -> false)
+		@inputText(clientForm("reportingEmail"), 
+			'_label -> "Reporting Email")
+		@checkbox(clientForm("phoneReportOk"), 
+			'_label -> "Phone Reports OK?", 
+			'_showConstraints -> false)
+	
+	</fieldset>
+	
+	
+	<div>
+		@if(goal == "Create"){
+			<button type="submit" formmethod="post" formaction="@routes.ClientController.saveClient()">Save</button>
+			<a href="@routes.MainController.returnToDashboard()"><button type="button">Cancel</button></a>
+		}
+		@if(goal == "Edit"){
+			<button type="submit" formmethod="post" formaction="@routes.ClientController.updateClient(clientForm.get().getClientId())">Save</button>
+		}
+		@if(goal != "Create"){
+			<a href="@routes.MainController.searchResults("client",clientForm.get().getClientId()+"")"><button type="button">Back</button></a>
+		}
+	</div>
+	</form>
+}

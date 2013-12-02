@@ -1,0 +1,45 @@
+@(eNumber: Int, employeeForm: Form[EmployeePOJO])
+@import helper._
+
+@main("Employee") {
+     <form>
+	     <fieldset>
+	  		<p class="error">
+	  			@flash.get("userexists")
+	  		</p>
+	  		<p class="error">
+	  			@flash.get("adminIssue")
+	  		</p>
+	     	<dl>
+	     		<dt>Employee Number</dt> 
+	     		<dd>@eNumber</dd>
+	     	</dl>
+            @inputText(employeeForm("first"), 
+            '_label -> "First Name", 
+            '_showConstraints -> false)
+            @inputText(employeeForm("last"), 
+            '_label -> "Last Name", 
+            '_showConstraints -> false)
+            @inputText(employeeForm("userName"), 
+            '_label -> "User Name", 
+            '_showConstraints -> false)
+            <h3>User Roles</h3>
+			@checkbox(employeeForm("admin"), 
+			'_label -> "Administrator")
+			@checkbox(employeeForm("manageClients"),
+			'_label -> "Manage Clients")
+			@checkbox(employeeForm("manageCases"),
+			'_label -> "Manage Cases")
+			@checkbox(employeeForm("manageCaseResults"),
+			'_label -> "Manage Case Results")
+	     </fieldset>
+	
+	     <div>
+	     	<button type="submit" formmethod="post" 
+	     	formaction="@routes.EmployeeController.update(eNumber)">
+	     	Update</button>
+	     	<a href="@routes.EmployeeController.employees()"><button type="button">Cancel</button></a>
+	     </div>
+	 </form>
+     
+}

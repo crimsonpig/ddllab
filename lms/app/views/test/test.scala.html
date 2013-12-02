@@ -1,0 +1,87 @@
+@(goal: String, testForm: Form[TestPOJO])
+@import helper._
+
+@main("Test") {
+	<form>
+	<fieldset>
+		@if(flash.contains("testexists")){
+		  <p class="error">
+		  	@flash.get("testexists")
+		  </p>
+		}
+		@if(goal == "C"){
+			@inputText(testForm("testNumber"), 
+			'_label -> "Test Number")
+		}
+		@if(goal == "E"){
+	     	<dl>
+	     		<dt>Test Number</dt> 
+	     		<dd>@testForm("testNumber").value</dd>
+	     	</dl>
+		}
+		@inputText(testForm("testName"),
+		'_label -> "Test Name")
+		<dl>
+		<dt>Test Type</dt>
+		<dd>
+		<select name="testType">
+			@if(testForm("testType").value == "T"){
+				<option selected="selected">T</option>
+				<option>C</option>
+			}
+			@if(testForm("testType").value == "C"){
+				<option>T</option>
+				<option selected="selected">C</option>
+			}
+			@if(testForm("testType").value != "C" && 
+			testForm("testType").value != "T"){
+				<option>T</option>
+				<option>C</option>
+			}
+		</select>
+		</dd>
+		</dl>
+		@inputText(testForm("typeOfSample"),
+		'_label -> "Sample Type",
+		'size -> 10, 
+		'cols -> 10)
+		@inputText(testForm("respicture"),
+		'_label -> "Respicture",
+		'size -> 10, 
+		'cols -> 10)
+		@inputText(testForm("units"),
+		'_label -> "Units",
+		'size -> 10, 
+		'cols -> 10)
+
+		@textarea(testForm("controlText"),
+		'_label -> "Control Text", 
+		'cols -> 144, 
+		'rows -> 6)
+		@inputText(testForm("controlResultLine"),
+		'_label -> "Control Result Line")	
+		@textarea(testForm("resultText"),
+		'_label -> "Expanded Results Section",
+		'cols -> 144,
+		'rows -> 6)
+		@textarea(testForm("defaultComment"),
+		'_label -> "Default Comment",
+		'cols -> 70, 
+		'rows -> 4)			
+	</fieldset>
+	
+	<div>
+	@if(goal == "C"){
+       	<button type="submit" formmethod="post" 
+    	formaction="@routes.TestController.save()">
+    	Save</button>
+    }
+    @if(goal == "E"){
+       	<button type="submit" formmethod="post" 
+    	formaction="@routes.TestController.update(testForm.get().getTestNumber())">
+    	Update</button>
+    }
+	<a href="@routes.TestController.tests()"><button type="button">Cancel</button></a>
+	</div>
+	</form>
+}

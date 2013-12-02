@@ -1,0 +1,44 @@
+@(form: Form[Application.Login])
+
+<html>
+  <head>
+    <title>Lab Management System</title>
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+  </head>
+  <body>
+    <header>
+
+    </header>
+    <center>
+    @helper.form(routes.Application.authenticate) {
+      <h1>Login</h1>
+
+	  @if(flash.contains("error")){
+	  <p class="error">
+	  	@flash.get("error")
+	  </p>
+	  }
+      @if(flash.contains("success")) {
+	  <p class="success">
+	     @flash.get("success")
+	  </p>
+      }
+      @if(flash.contains("pwChange")){
+      <p class="success">
+	     @flash.get("pwChange")
+	  </p>
+      }
+      <p>
+        <input type="username" name="username" placeholder="User Name" value="@form("username").value">
+      </p>
+      <p>
+        <input type="password" name="password" placeholder="Password" >
+      </p>
+      <p>
+        <button type="submit">Login</button>
+      </p>
+    }
+    </center>
+  </body>
+</html>

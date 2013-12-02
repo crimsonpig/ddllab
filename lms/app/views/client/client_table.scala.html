@@ -1,0 +1,33 @@
+@(clients: List[Client], userRoles: Set[String])
+<h3>Client Search Results</h3>
+<table>
+	<tr>
+		<th>Client Name</th>
+		<th>Client #</th>
+		<th>View Details</th>
+		@if(userRoles.contains("manage clients")){
+			<th>Edit</th>
+		}
+		@if(userRoles.contains("manage cases")){
+<!-- 		<th>View Open Cases</th>
+			<th>View All Cases</th> -->			
+			<th>Enter Requisition</th>
+		}
+		
+	</tr>
+	@clients.map { client => 
+		<tr>
+			<td>@client.getLast(), @client.getFirst()</td>
+			<td>@client.getClientId()</td>
+			<td><a href="@routes.ClientController.viewClient(client.getClientId)">details</a></td>
+			@if(userRoles.contains("manage clients")){
+				<td><a href="@routes.ClientController.editClient(client.getClientId)">Edit</a></td>	
+			}
+			@if(userRoles.contains("manage cases")){
+				<!-- <td>View Open Cases</td> 
+				<td>View All Cases</td>-->
+				<td><a href="@routes.CaseController.createCase(client.getClientId)">Enter Requisition</a></td>
+			}
+		</tr>
+	}
+</table>

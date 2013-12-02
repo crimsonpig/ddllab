@@ -1,0 +1,59 @@
+@(theTest: TestEntityObject, caseTests: List[CaseTest])
+@import helper._
+
+@main("Worksheet") {
+	<div>
+		@theTest.getTestNumber(), 
+		@theTest.getTestName()
+	</div>
+	<div>
+	---------------------------------------------------------------------------------------------
+	</div>
+	<div style="white-space:pre;">@theTest.getControlText()</div>
+	<div>
+	_____________________________________________________________________________________________
+	</div>	
+	<div style="white-space:pre;">@theTest.getControlResultLine()</div>
+	<div>
+	=============================================================================================
+	</div>
+	<div>
+		@theTest.getTestNumber(), 
+		@theTest.getTestName()
+	</div>
+	<div>
+	---------------------------------------------------------------------------------------------
+	</div>
+	@caseTests.map { ct => 
+		<div>
+			<span>@ct.getCaseNumber()</span>
+			<span>@ct.getCaseSubjectLast(), @ct.getCaseSubjectFirst()</span>
+			<span>@ct.getCaseSampleType() </span>
+			<span>@ct.getTestRespicture()</span>
+			<span>______</span>
+			<span>@ct.getTestUnits()</span>
+		</div>
+		<div>
+			<span>COL: @ct.getSampleDateCollected(),@ct.getSampleTimeCollected()</span>
+			<span>(ID=@ct.getCaseOtherId())</span>
+			<span>(@ct.getClientNumber())</span>
+			<span>@ct.getClientFirstName() @ct.getClientLastName() @ct.getClientCompanyName()</span>
+			<span>@ct.getClientOfficePhone()</span>
+		</div>
+		<div style="white-space:pre;">@ct.getResultSection()</div>
+		<br />
+	}
+	<p>
+		DATA REVIEW: DATE_________ BY ___
+	</p>
+	
+	
+	<a href="@routes.WorksheetController.enterResultsForCaseTest(theTest.getTestNumber())">
+		<button type="button">Start Entering Results</button>
+	</a>
+	
+	<a href="@routes.MainController.enterResults()">
+		<button type="button">Cancel</button>
+	</a>
+
+}

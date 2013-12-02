@@ -1,0 +1,104 @@
+@(emp: Employee, userRoles: Set[String], clientSearchResults: List[Client], caseSearchResults: List[CaseEntityObject], searchForm: Form[MainController.SearchQuery])
+@import helper._
+
+@main("Dashboard"){
+	<header style="" >
+		<div style="float:left;"><a href="@routes.Application.logout()">Logout</a></div>
+	</header>
+	<div class="search_area" style="clear:both; background-color:#c0c0c0; border-bottom:thick solid blue; height:90px; padding:10px; border-radius: 10px 10px 0 0">
+	<div style="float:left;">
+		@if(emp != null){
+		<h1>Welcome, @emp.getFirst()</h1>
+		}
+	</div>
+	<div style="float:right; margin:10px;">
+	<fieldset>
+	<legend>Search</legend>
+	<!--<input type="text"></input>-->
+	@form(routes.MainController.search()){
+		<input type="text" name="data" value="@searchForm("data").value"> 
+
+	<select name="clientOrCase">
+		@if(clientSearchResults != null){
+			<option selected="selected">Client</option>
+			<option>Case</option>
+		} else {
+			@if(caseSearchResults != null){
+			<option>Client</option>
+			<option selected="selected">Case</option>
+			} else {
+			<option>Client</option>
+			<option>Case</option>
+			}
+		}
+	</select>
+
+	<button type="submit">Search</button>
+	}
+	</fieldset>
+	
+	</div>
+</div>
+
+<div class="main_content" style="clear:both; height:500px; background-color:#00FFFF;">
+
+
+<!--
+<div style="float:left; background-color:#C0C0C0; height:25%; width:70%;">
+	<h2>Item Details</h2>
+</div>
+-->
+<nav class="button_area" style="clear:left; float:left; background-color:#C0C0C0; height:97.9%; width:10%; padding-top:10px;">
+	<center>
+	@if(emp!=null){
+		@if(userRoles.contains("manage clients")){
+			@form(routes.MainController.createClient()){
+				<button class="dashButton" type="submit">Create Client</button><br/>
+			}
+		}
+		@if(userRoles.contains("manage cases")){
+			@form(routes.MainController.printWorksheet()){
+				<button class="dashButton" >Print Worksheet</button><br/>
+			}
+		}
+		@if(userRoles.contains("manage results")){
+			@form(routes.MainController.enterResults()){
+				<button class="dashButton" >Enter Results</button><br/>
+			}
+		}
+		
+		@if(userRoles.contains("admin")){
+			@form(routes.EmployeeController.employees()){
+				<button class="dashButton" type="submit">Manage Employees</button><br/>
+			}
+			@form(routes.TestController.tests()){
+				<button class="dashButton" type="submit">Manage Tests</button>
+			}
+		}
+		<a href="@routes.EmployeeController.editPassword()">
+		<button class="dashButton" type="button">Change Password
+		</button>
+		</a>
+	}
+
+	</center>
+</nav>
+
+<div class="search_results" style="float:left; height:100%; width:90%; overflow-y:auto;">
+	<center>
+	@if(clientSearchResults != null && clientSearchResults.size() > 0) {
+		@views.html.client.client_table(clientSearchResults, userRoles)
+	}
+	
+	@if(caseSearchResults != null && caseSearchResults.size() > 0) {
+		@views.html.cases.case_table(caseSearchResults, userRoles)
+	}
+	</center>
+	
+</div>
+
+</div> <!-- end main_content --!>
+
+<!-- dashboard.scala.html -->
+}
+

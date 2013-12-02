@@ -1,0 +1,58 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET     /                           controllers.MainController.returnToDashboard()
+
+POST	/			    controllers.MainController.search()
+GET		/search/:clientOrCase/$data<.*>		controllers.MainController.searchResults(clientOrCase: String, data: String)
+GET	/login			    controllers.Application.login()
+POST	/login			    controllers.Application.authenticate()
+
+GET	/logout			    controllers.Application.logout()
+GET		/worksheet			controllers.MainController.printWorksheet()
+GET		/worksheet/:id			controllers.WorksheetController.getCasesForWorksheet(id: Int)
+
+GET		/results		controllers.MainController.enterResults()
+GET		/results/:id	controllers.WorksheetController.getCasesForResults(id: Int)
+GET		/results/:id/enter		controllers.WorksheetController.enterResultsForCaseTest(id: Int)
+POST	/results/:id/case/:caseNo/comments		controllers.WorksheetController.enterComment(id: Int, caseNo: Long)
+POST	/results/:id/case/:caseNo/save		controllers.WorksheetController.save(id: Int, caseNo: Long)		
+
+GET		/clients/:id		controllers.ClientController.viewClient(id: Int)
+GET		/clients/:id/edit		controllers.ClientController.editClient(id: Int)
+POST	/clients/new	controllers.MainController.createClient()
+POST	/clients/save	controllers.ClientController.saveClient()
+POST	/clients/:id/update		controllers.ClientController.updateClient(id: Int)
+GET		/clients/:id/delete		controllers.ClientController.deleteClient(id: Int)
+
+GET		/cases/:clientID/new	controllers.CaseController.createCase(clientID: Int)
+GET		/cases/:caseNumber/edit		controllers.CaseController.editCase(caseNumber: String)
+POST	/cases/save	controllers.CaseController.saveCase()
+POST	/cases/update	controllers.CaseController.updateCase()
+GET		/cases/:caseNumber/delete	controllers.CaseController.deleteCase(caseNumber: String)
+
+GET		/cases/:caseNum/newreport		controllers.ReportController.createReport(caseNum: String)
+POST	/cases/:caseNum/setReported 	controllers.ReportController.setReported(caseNum: String)
+GET		/cases/:caseNum/report			controllers.ReportController.getReport(caseNum: String)
+
+GET		/employees					controllers.EmployeeController.employees()
+GET		/employees/:id/edit			controllers.EmployeeController.editEmployee(id: Int)
+POST	/employees/:id/update		controllers.EmployeeController.update(id: Int)
+GET		/employees/:id/resetPassword	controllers.EmployeeController.resetPassword(id: Int)
+GET		/changePassword		controllers.EmployeeController.editPassword()
+POST	/changePassword/submit	controllers.EmployeeController.changePassword() 
+GET		/employees/new				controllers.EmployeeController.newEmployee()
+POST	/employees/save				controllers.EmployeeController.save()
+#POST	/employees/:id/delete		controllers.EmployeeController.deleteEmployee(id: Int)
+
+GET		/tests						controllers.TestController.tests()
+GET		/tests/new					controllers.TestController.newTest()
+POST	/tests/save					controllers.TestController.save()
+GET		/tests/:id/edit				controllers.TestController.edit(id: Int)
+POST	/tests/:id/update			controllers.TestController.update(id: Int)
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

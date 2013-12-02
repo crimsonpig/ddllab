@@ -1,0 +1,52 @@
+@(tests: List[SelectTestPOJO])
+@import helper._
+
+@main("Select a Test") {
+	<script type="text/javascript">
+	function getWorksheet() {
+		var testNo = $("#getTest").val();
+		if(testNo != ''){
+			$(location).attr('href', 
+					'results/'
+					+testNo
+			);
+		}
+	}
+	
+	function getTest(e){
+		if(e && e.keyCode == 13){
+			getWorksheet();
+		}
+	}
+	</script>
+	<a href="@routes.MainController.returnToDashboard()">
+		Return To Dashboard
+	</a> 
+    <h1>Lab Tests Awaiting Results</h1>
+    <p>
+    	<input type="text" size="8" id="getTest" onKeyPress="getTest(event)" > 
+    	<a href="javascript:getWorksheet()"><button type="submit">Search</button></a>
+    </p>
+    <table>
+		<tr>
+			<th></th>
+			<th>Test Number</th>
+			<th>Test Name</th>
+			<th>Number of Cases</th>
+		</tr>
+		@for(test <- tests){
+			<tr>
+				<td>
+	    			<a href="@routes.WorksheetController.getCasesForResults(test.getTestNumber())">
+	    				<button type="button">Enter Results</button>
+	    			</a>
+	    		</td>
+				<td>@test.getTestNumber()</td>
+				<td>@test.getTestName()</td>
+				<td>@test.getNumberOfCases()</td>
+
+			</tr>
+		}
+    </table>
+
+}

@@ -1,0 +1,43 @@
+@(employeeForm: Form[EmployeePOJO])
+@import helper._
+
+@main("Employee") {
+    <h1>New Employee</h1>
+
+    @form(routes.EmployeeController.save()) {      
+        <fieldset>
+            @if(flash.contains("userexists")){
+	  			<p class="error">
+	  			@flash.get("userexists")
+	  			</p>
+	  		}
+            @inputText(employeeForm("first"), 
+            '_label -> "First Name", 
+            '_showConstraints -> false)
+            @inputText(employeeForm("last"), 
+            '_label -> "Last Name", 
+            '_showConstraints -> false)
+            	  		
+            @inputText(employeeForm("userName"), 
+            '_label -> "User Name", 
+            '_showConstraints -> false)
+
+            <h3>User Roles</h3>
+			@checkbox(employeeForm("admin"), 
+			'_label -> "Administrator")
+			@checkbox(employeeForm("manageClients"),
+			'_label -> "Manage Clients")
+			@checkbox(employeeForm("manageCases"),
+			'_label -> "Manage Cases")
+			@checkbox(employeeForm("manageCaseResults"),
+			'_label -> "Manage CaseResults")
+        </fieldset>
+
+        <div>
+            <button type="submit">Save</button>
+            <a href="@routes.EmployeeController.employees()"><button type="button">Cancel</button></a>
+        </div>
+        
+    }
+	
+}
